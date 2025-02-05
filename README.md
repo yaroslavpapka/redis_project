@@ -1,5 +1,6 @@
 # RedisProject
-[![Demonstrate]([https://youtu.be/FKPFuGUTF2o))
+[![Demonstrate](https://img.youtube.com/vi/FKPFuGUTF2o/maxresdefault.jpg)](https://youtu.be/FKPFuGUTF2o)
+
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
