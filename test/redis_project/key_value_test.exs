@@ -44,7 +44,7 @@ defmodule RedisProject.KeyValueTest do
     test "deletes an existing key" do
       Redix.command(:redix, ["SET", "to_delete", "some_value"])
       assert :ok == KeyValue.delete_key_value("to_delete")
-      assert %{id: "to_delete", value: nil} == KeyValue.get_key_value!("to_delete")
+      assert {:error, "Key to_delete does not exist"} == KeyValue.get_key_value!("to_delete")
     end
   end
 end

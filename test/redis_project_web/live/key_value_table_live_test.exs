@@ -3,9 +3,6 @@ defmodule RedisProjectWeb.KeyValueTableLiveTest do
 
   import Phoenix.LiveViewTest
   import RedisProject.KeyValueFixtures
-  @create_attrs %{value: "some value", key: "some key"}
-  @update_attrs %{value: "some updated value", key: "some updated key"}
-  @invalid_attrs %{value: nil, key: nil}
 
   defp create_key_value_table(_) do
     key_value_table = key_value_table_fixture()
@@ -25,9 +22,22 @@ defmodule RedisProjectWeb.KeyValueTableLiveTest do
     test "saves new key_value_table", %{conn: conn} do
       {:ok, index_live, _html} = live(conn, ~p"/key_values")
 
-      assert index_live |> element("button", "New Key Value") |> render_click()
-      assert has_element?(index_live, "#key_value_modal", "New Key Value")
+      assert index_live
+             |> element("button", "New Key Value")
+             |> render_click()
+
+      assert has_element?(index_live, "#key_value_modal")
+
+      assert index_live
+             |> form("#key_value_table-form", %{
+               "id" => "new_key",
+               "value" => "new_value"
+             })
+             |> render_submit()
+
+      assert has_element?(index_live, "#key_values-new_key", "new_value")
     end
+
 
     test "updates key_value_table in listing", %{conn: conn, key_value_table: key_value_table} do
       {:ok, index_live, _html} = live(conn, ~p"/key_values")
@@ -35,6 +45,17 @@ defmodule RedisProjectWeb.KeyValueTableLiveTest do
       assert index_live
              |> element("button[phx-value-id='#{key_value_table.id}']", "Edit")
              |> render_click()
+
+      assert has_element?(index_live, "#key_value_modal")
+
+      assert index_live
+             |> form("#key_value_table-form", %{
+               "id" => key_value_table.id,
+               "value" => "updated_value"
+             })
+             |> render_submit()
+
+      assert has_element?(index_live, "#key_values-#{key_value_table.id}", "updated_value")
     end
 
     test "deletes key_value_table in listing", %{conn: conn, key_value_table: key_value_table} do
@@ -42,6 +63,12 @@ defmodule RedisProjectWeb.KeyValueTableLiveTest do
 
       assert index_live
              |> element("button[phx-value-id='#{key_value_table.id}']", "Delete")
+             |> render_click()
+
+      assert has_element?(index_live, "#delete_key_value_modal")
+
+      assert index_live
+             |> element("button.btn-danger", "Yes, Delete")
              |> render_click()
 
       refute has_element?(index_live, "#key_values-#{key_value_table.id}")
