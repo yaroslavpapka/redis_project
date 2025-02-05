@@ -1,5 +1,5 @@
 # RedisProject
-
+[![Demonstrate]([https://img.youtube.com/vi/ID_ВИДЕО/maxresdefault.jpg)](https://www.youtube.com/watch?v=ID_ВИДЕО](https://youtu.be/FKPFuGUTF2o))
 To start your Phoenix server:
 
   * Run `mix setup` to install and setup dependencies
@@ -17,3 +17,4 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
