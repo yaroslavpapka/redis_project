@@ -1,0 +1,43 @@
+<.header>
+  Listing Key Values
+  <:actions>
+    <.button phx-click="new_key_value">New Key Value</.button>
+  </:actions>
+</.header>
+
+<.table
+  id="key_values"
+  rows={@streams.key_values}
+  row_click={fn {_id, key_value_table} -> JS.push("edit_key_value", value: %{id: key_value_table.id}) end}
+>
+  <:col :let={{_id, key_value_table}} label="Key">{key_value_table.id}</:col>
+  <:col :let={{_id, key_value_table}} label="Value">{key_value_table.value}</:col>
+  <:action :let={{id, key_value_table}}>
+    <.button phx-click="edit_key_value" phx-value-id={key_value_table.id}>Edit</.button>
+    <.button phx-click="delete_key_value" phx-value-id={key_value_table.id} phx-click="confirm_delete">
+      Delete
+    </.button>
+  </:action>
+</.table>
+
+<.modal :if={@show_modal} id="key_value_modal" show >
+  <.live_component
+    module={RedisProjectWeb.KeyValueTableLive.FormComponent}
+    id="key_value_modal_component"
+    show_modal={@show_modal}
+    title={@page_title}
+    action={@live_action}
+    key_value_table={@key_value_table}
+  />
+</.modal>
+
+<.modal :if={@delete_modal} id="delete_key_value_modal" show>
+  <.live_component
+    module={RedisProjectWeb.KeyValueTableLive.ConfirmDeleteComponent}
+    id="confirm_delete_modal_component"
+    title="Confirm Delete"
+    show_modal={@delete_modal}
+    key_value_table={@key_value_table}
+  />
+</.modal>
+
