@@ -17,9 +17,7 @@ defmodule RedisProjectWeb.Router do
   scope "/", RedisProjectWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
-    live "/key_values", KeyValueTableLive.Index
-
+    live "/", KeyValueTableLive.Index
   end
 
   # Other scopes may use custom stacks.

@@ -13,14 +13,14 @@ defmodule RedisProjectWeb.KeyValueTableLiveTest do
     setup [:create_key_value_table]
 
     test "lists all key_values", %{conn: conn, key_value_table: key_value_table} do
-      {:ok, _index_live, html} = live(conn, ~p"/key_values")
+      {:ok, _index_live, html} = live(conn, ~p"/")
 
       assert html =~ "Listing Key Values"
       assert html =~ key_value_table.value
     end
 
     test "saves new key_value_table", %{conn: conn} do
-      {:ok, index_live, _html} = live(conn, ~p"/key_values")
+      {:ok, index_live, _html} = live(conn, ~p"/")
 
       assert index_live
              |> element("button", "New Key Value")
@@ -40,7 +40,7 @@ defmodule RedisProjectWeb.KeyValueTableLiveTest do
 
 
     test "updates key_value_table in listing", %{conn: conn, key_value_table: key_value_table} do
-      {:ok, index_live, _html} = live(conn, ~p"/key_values")
+      {:ok, index_live, _html} = live(conn, ~p"/")
 
       assert index_live
              |> element("button[phx-value-id='#{key_value_table.id}']", "Edit")
@@ -59,7 +59,7 @@ defmodule RedisProjectWeb.KeyValueTableLiveTest do
     end
 
     test "deletes key_value_table in listing", %{conn: conn, key_value_table: key_value_table} do
-      {:ok, index_live, _html} = live(conn, ~p"/key_values")
+      {:ok, index_live, _html} = live(conn, ~p"/")
 
       assert index_live
              |> element("button[phx-value-id='#{key_value_table.id}']", "Delete")
@@ -79,7 +79,7 @@ defmodule RedisProjectWeb.KeyValueTableLiveTest do
     setup [:create_key_value_table]
 
     test "displays key_value_table", %{conn: conn, key_value_table: key_value_table} do
-      {:ok, _show_live, html} = live(conn, ~p"/key_values")
+      {:ok, _show_live, html} = live(conn, ~p"/")
 
       assert html =~ "Listing Key Values"
       assert html =~ key_value_table.value

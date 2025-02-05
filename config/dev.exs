@@ -1,15 +1,5 @@
 import Config
 
-# Configure your database
-config :redis_project, RedisProject.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "redis_project_dev",
-  stacktrace: true,
-  show_sensitive_data_on_connection_error: true,
-  pool_size: 10
-
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
@@ -23,7 +13,7 @@ config :redis_project, RedisProjectWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "YrznN6lPfGb0Ug/AW5VV4+kaiEYHPmwUYaTokpnkGUY4JRO+ZN5narVnv6k3c5t1",
+  secret_key_base: "dThG30jZkPatcZ+nFOaJ76QNNF+dhzNu/KcQpPIH7lOtTIQls5BYJOBU9ifGeN3d",
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:redis_project, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:redis_project, ~w(--watch)]}

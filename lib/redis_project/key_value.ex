@@ -16,20 +16,25 @@ defmodule RedisProject.KeyValue do
   def get_key_value!(key), do: fetch_key_value(key)
 
   def create_key_value(%{key: key, value: value}) do
-    with {:ok, 0} <- execute_redis_command(["EXISTS", key]),
+    with false <- String.trim(key) == "",
+         false <- String.trim(value) == "",
+         {:ok, 0} <- execute_redis_command(["EXISTS", key]),
          {:ok, "OK"} <- execute_redis_command(["SET", key, value]) do
       {:ok, %{id: key, value: value}}
     else
+      true -> {:error, "Key and Value cannot be empty"}
       {:ok, 1} -> {:error, "Key #{key} already exists"}
       {:error, reason} -> {:error, "Redis error: #{inspect(reason)}"}
     end
   end
 
   def update_key_value(key, new_value) do
-    with {:ok, 1} <- execute_redis_command(["EXISTS", key]),
+    with false <- String.trim(new_value) == "",
+         {:ok, 1} <- execute_redis_command(["EXISTS", key]),
          {:ok, "OK"} <- execute_redis_command(["SET", key, new_value]) do
       {:ok, %{id: key, value: new_value}}
     else
+      true -> {:error, "Value cannot be empty"}
       {:ok, 0} -> {:error, "Key #{key} does not exist"}
       {:error, reason} -> {:error, "Redis error: #{inspect(reason)}"}
     end

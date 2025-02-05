@@ -9,7 +9,6 @@ defmodule RedisProject.Application do
   def start(_type, _args) do
     children = [
       RedisProjectWeb.Telemetry,
-      RedisProject.Repo,
       {DNSCluster, query: Application.get_env(:redis_project, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: RedisProject.PubSub},
       # Start the Finch HTTP client for sending emails

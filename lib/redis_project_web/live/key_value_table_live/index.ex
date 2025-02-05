@@ -24,6 +24,11 @@ defmodule RedisProjectWeb.KeyValueTableLive.Index do
     {:noreply, assign(socket, key_value_table: KeyValue.get_key_value!(id), delete_modal: true)}
   end
 
+  def handle_event("close", _, socket) do
+    send(self(), {__MODULE__, :closed})
+    {:noreply, assign(socket, :show_modal, false)}
+  end
+
   def handle_info({RedisProjectWeb.KeyValueTableLive.FormComponent, {:created, key_value}}, socket) do
     update_stream(socket, &stream_insert(&1, :key_values, key_value, at: 0), "Key value saved successfully")
   end

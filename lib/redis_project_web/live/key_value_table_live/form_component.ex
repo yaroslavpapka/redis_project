@@ -7,40 +7,31 @@ defmodule RedisProjectWeb.KeyValueTableLive.FormComponent do
   def render(assigns) do
     ~H"""
     <div>
-      <.modal :if={@show_modal} id="key_value_modal" show on_cancel={JS.push("close", target: @myself)}>
-        <div class="p-4 bg-white rounded-lg shadow-md">
-          <.header>{@title}</.header>
+      <.header>{@title}</.header>
 
-          <.simple_form for={@form} id="key_value_table-form" phx-target={@myself} phx-submit="save">
-            <.input
-              field={@form[:id]}
-              type="text"
-              label="Key"
-              value={@key_value_table.id}
-              readonly={@key_value_table.id != ""}
-            />
-            <.input
-              field={@form[:value]}
-              type="text"
-              label="Value"
-              value={@key_value_table.value}
-            />
+      <.simple_form for={@form} id="key_value_table-form" phx-target={@myself} phx-submit="save">
+        <.input
+          field={@form[:id]}
+          type="text"
+          label="Key"
+          value={@key_value_table.id}
+          readonly={@key_value_table.id != ""}
+        />
+        <.input field={@form[:value]} type="text" label="Value" value={@key_value_table.value} />
 
-            <p :if={@error} class="text-red-500">{@error}</p>
+        <p :if={@error} class="text-red-500">{@error}</p>
 
-            <:actions>
-              <.button phx-disable-with="Saving...">{@button_text}</.button>
-            </:actions>
-          </.simple_form>
-        </div>
-      </.modal>
+        <:actions>
+          <.button phx-disable-with="Saving...">{@button_text}</.button>
+        </:actions>
+      </.simple_form>
     </div>
     """
   end
 
   @impl true
   def update(assigns, socket) do
-    form = to_form(%{source: assigns.key_value_table, data: assigns.key_value_table})
+    form = to_form(%{"source" => assigns.key_value_table, "data" => assigns.key_value_table})
 
     {:ok,
      socket
@@ -56,14 +47,10 @@ defmodule RedisProjectWeb.KeyValueTableLive.FormComponent do
     case socket.assigns.key_value_table.id do
       "" ->
         create_key(key, value, socket)
+
       _ ->
         update_key(key, value, socket)
     end
-  end
-
-  def handle_event("close", _, socket) do
-    send(self(), {__MODULE__, :closed})
-    {:noreply, assign(socket, :show_modal, false)}
   end
 
   defp create_key(key, value, socket) do

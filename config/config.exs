@@ -8,7 +8,6 @@
 import Config
 
 config :redis_project,
-  ecto_repos: [RedisProject.Repo],
   generators: [timestamp_type: :utc_datetime]
 
 # Configures the endpoint
@@ -20,7 +19,7 @@ config :redis_project, RedisProjectWeb.Endpoint,
     layout: false
   ],
   pubsub_server: RedisProject.PubSub,
-  live_view: [signing_salt: "0KEvesqA"]
+  live_view: [signing_salt: "z94MAyrY"]
 
 # Configures the mailer
 #

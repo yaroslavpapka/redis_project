@@ -7,7 +7,7 @@ defmodule RedisProjectWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_redis_project_key",
-    signing_salt: "nQ+RsH2+",
+    signing_salt: "x/kMaABd",
     same_site: "Lax"
   ]
 
@@ -31,7 +31,6 @@ defmodule RedisProjectWeb.Endpoint do
     socket "/phoenix/live_reload/socket", Phoenix.LiveReloader.Socket
     plug Phoenix.LiveReloader
     plug Phoenix.CodeReloader
-    plug Phoenix.Ecto.CheckRepoStatus, otp_app: :redis_project
   end
 
   plug Phoenix.LiveDashboard.RequestLogger,
