@@ -3,7 +3,6 @@ defmodule RedisProjectWeb.KeyValueTableLive.Index do
 
   alias RedisProject.KeyValue
 
-  @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
@@ -12,7 +11,6 @@ defmodule RedisProjectWeb.KeyValueTableLive.Index do
      |> stream(:key_values, KeyValue.list_key_values())}
   end
 
-  @impl true
   def handle_event("new_key_value", _, socket) do
     open_modal(socket, %{id: "", value: ""}, "New Key Value")
   end
@@ -26,12 +24,15 @@ defmodule RedisProjectWeb.KeyValueTableLive.Index do
     {:noreply, assign(socket, key_value_table: KeyValue.get_key_value!(id), delete_modal: true)}
   end
 
-  @impl true
-  def handle_info({component, {:created, key_value}}, socket) when component == RedisProjectWeb.KeyValueTableLive.FormComponent do
+  def handle_info({RedisProjectWeb.KeyValueTableLive.FormComponent, {:created, key_value}}, socket) do
     update_stream(socket, &stream_insert(&1, :key_values, key_value, at: 0), "Key value saved successfully")
   end
 
-  def handle_info({component, {:delete_confirmed, key_value}}, socket) when component == RedisProjectWeb.KeyValueTableLive.ConfirmDeleteComponent do
+  def handle_info({RedisProjectWeb.KeyValueTableLive.FormComponent, {:updated, key_value}}, socket) do
+    update_stream(socket, &stream_insert(&1, :key_values, key_value), "Key value updated successfully")
+  end
+
+  def handle_info({RedisProjectWeb.KeyValueTableLive.ConfirmDeleteComponent, {:delete_confirmed, key_value}}, socket) do
     update_stream(socket, &stream_delete(&1, :key_values, key_value), "Key value deleted successfully")
   end
 

@@ -16,16 +16,22 @@ defmodule RedisProject.KeyValue do
   def get_key_value!(key), do: fetch_key_value(key)
 
   def create_key_value(%{key: key, value: value}) do
-    execute_redis_command(["SET", key, value])
-    |> handle_write_response(key, value, "Failed to create key-value pair")
+    with {:ok, 0} <- execute_redis_command(["EXISTS", key]),
+         {:ok, "OK"} <- execute_redis_command(["SET", key, value]) do
+      {:ok, %{id: key, value: value}}
+    else
+      {:ok, 1} -> {:error, "Key #{key} already exists"}
+      {:error, reason} -> {:error, "Redis error: #{inspect(reason)}"}
+    end
   end
 
   def update_key_value(key, new_value) do
-    with {:ok, _} <- execute_redis_command(["GET", key]),
+    with {:ok, 1} <- execute_redis_command(["EXISTS", key]),
          {:ok, "OK"} <- execute_redis_command(["SET", key, new_value]) do
       {:ok, %{id: key, value: new_value}}
     else
-      {:error, _} -> {:error, "Key #{key} does not exist"}
+      {:ok, 0} -> {:error, "Key #{key} does not exist"}
+      {:error, reason} -> {:error, "Redis error: #{inspect(reason)}"}
     end
   end
 
@@ -36,13 +42,20 @@ defmodule RedisProject.KeyValue do
     end
   end
 
-  defp fetch_key_value(key) do
-    case execute_redis_command(["GET", key]) do
-      {:ok, value} -> %{id: key, value: value}
-      {:error, _} -> {:error, "reason"}
+  def key_exists?(key) do
+    case execute_redis_command(["EXISTS", key]) do
+      {:ok, 1} -> true
+      _ -> false
     end
   end
 
-  defp handle_write_response({:ok, "OK"}, key, value, _), do: {:ok, %{id: key, value: value}}
-  defp handle_write_response({:error, reason}, _, _, error_msg), do: {:error, "#{error_msg}: #{reason}"}
+  def fetch_key_value(key) do
+    with true <- key_exists?(key),
+         {:ok, value} <- execute_redis_command(["GET", key]) do
+      %{id: key, value: value}
+    else
+      false -> {:error, "Key #{key} does not exist"}
+      _ -> {:error, "Failed to fetch value"}
+    end
+  end
 end
