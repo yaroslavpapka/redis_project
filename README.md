@@ -1,21 +1,42 @@
-# RedisProject
+# 🚀 RedisProject
 [![Demonstrate](https://img.youtube.com/vi/FKPFuGUTF2o/maxresdefault.jpg)](https://youtu.be/FKPFuGUTF2o)
 
-To start your Phoenix server:
+## 📌 Overview
+RedisProject is a Phoenix-based web application that utilizes Redis for managing key-value pairs. The app allows users to create, update, delete, and view key-value data stored in Redis via an interactive table with modals. 🔑📊
 
-  * Run `mix setup` to install and setup dependencies
-  * Run `sudo docker compose up -d` 
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+## ✨ Features
+- 📄 Key-Value management via Redis.
+- 🛠️ Modal-based UI for creating, updating, and deleting key-value pairs.
+- 📡 Live updates using Phoenix LiveView.
+- ✅ Full test coverage for API and UI.
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## ⚡ Setup Instructions
+### 🔧 Prerequisites
+- 🦀 Elixir & Erlang installed
+- 🐳 Docker & Docker Compose installed
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+### 📥 Installation Steps
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/yourusername/redis_project.git
+   cd redis_project
+   ```
+2. Set up dependencies:
+   ```sh
+   mix setup
+   ```
+3. Start Redis via Docker:
+   ```sh
+   sudo docker compose up -d
+   ```
+4. Start the Phoenix server:
+   ```sh
+   mix phx.server
+   ```
+   Or with IEx:
+   ```sh
+   iex -S mix phx.server
+   ```
 
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+Now you can visit [`localhost:4000`](http://localhost:4000) from your browser. 🌐
 
